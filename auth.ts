@@ -3,7 +3,7 @@ import NextAuth, { type DefaultSession } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import authConfig from "@/auth.config";
 import { getUserById } from "@/data/user";
-import { UserRole } from "@prisma/client";
+import { Kwis, Player, UserRole } from "@prisma/client";
 
 import { db } from "@/lib/db";
 
@@ -13,6 +13,8 @@ declare module "next-auth" {
   interface Session {
     user: {
       role: "ADMIN" | "USER";
+      kwisses: Array<Kwis>;
+      players: Array<Player>;
     } & DefaultSession["user"];
   }
 }

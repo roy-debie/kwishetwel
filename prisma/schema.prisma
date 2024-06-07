@@ -7,62 +7,86 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Invoice {
-  id            String @id @default(auto()) @map("_id") @db.ObjectId
-  customer      String
-  date          String
-  invoiceNumber String
-  licencePlate  String
-  payment       String
-  time          String
-  vehicle       String
-}
-
 enum UserRole {
   ADMIN
   USER
 }
 
 model User {
-  id            String          @id @default(auto()) @map("_id") @db.ObjectId
-  name          String?
-  email         String?         @unique
-  emailVerified DateTime?       
-  image         String?
-  password      String?
-  role          UserRole       @default(USER)
-  isTwoFactorEnabled Boolean @default(false)
+  id                    String                 @id @default(auto()) @map("_id") @db.ObjectId
+  name                  String?
+  email                 String?                @unique
+  emailVerified         DateTime?
+  image                 String?
+  password              String?
+  role                  UserRole               @default(USER)
+  isTwoFactorEnabled    Boolean                @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  kwisses                  Kwis[]
+  players                Player[]
 }
 
 model VerificationToken {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
-  token     String @unique
-  email     String
-  expires   DateTime
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  token   String   @unique
+  email   String
+  expires DateTime
+
   @@unique([token, email])
 }
 
 model PasswordResetToken {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
-  token     String @unique
-  email     String
-  expires   DateTime
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  token   String   @unique
+  email   String
+  expires DateTime
+
   @@unique([token, email])
 }
 
 model TwoFactorToken {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
-  token     String @unique
-  email     String
-  expires   DateTime
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  token   String   @unique
+  email   String
+  expires DateTime
+
   @@unique([token, email])
 }
 
 model TwoFactorConfirmation {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String @db.ObjectId
-  user    User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId])
+}
+
+model Kwis {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  players     Player[]
+  round       Int
+  maxRounds   Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdBy   User     @relation(fields: [createdById], references: [id])
+  createdById String   @db.ObjectId
+}
+
+model Player {
+  id                        String @id @default(auto()) @map("_id") @db.ObjectId
+  name                      String
+  sportCoins                Int
+  geographyCoins            Int
+  moneyCoins                Int
+  drinkingCoins             Int
+  kwis                      Kwis   @relation(fields: [kwisId], references: [id], onDelete: Cascade)
+  kwisId                    String @db.ObjectId
+  amountofQuestionsAnswered Int
+  amountofQuestionsCorrect  Int
+  amountofQuestionsWrong    Int
+  relatedToUser             User   @relation(fields: [relatedToUserId], references: [id])
+  relatedToUserId           String @db.ObjectId
 }

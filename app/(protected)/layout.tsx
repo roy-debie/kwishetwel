@@ -248,7 +248,9 @@ export default function Example({ children }: { children: React.ReactNode }) {
         </div>
 
         <main className="py-10 lg:pl-72 max-w-max">
-          <div className="px-4 sm:px-6 lg:px-8">{children}</div>
+          <div className="px-4 sm:px-6 lg:px-8 w-screen lg:w-[calc(100vw-18rem)]">
+            {children}
+          </div>
         </main>
       </div>
     </>

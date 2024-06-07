@@ -7,7 +7,7 @@ export default function Home() {
     <main className="flex h-full flex-col items-center justify-center">
       <div className="space-y-6">
         <h1 className="text-6xl font-semibold text-black drop-shadow-md">
-          RB32
+          Kwishetwel
         </h1>
         <LoginButton>
           <Button variant="destructive">Sign in</Button>

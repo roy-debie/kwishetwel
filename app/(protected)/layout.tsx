@@ -20,11 +20,6 @@ import { usePathname } from "next/navigation";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: HomeIcon },
-  {
-    name: "Invoices",
-    href: "/invoices",
-    icon: DocumentDuplicateIcon,
-  },
   { name: "Settings", href: "/settings", icon: ChartPieIcon },
 ];
 

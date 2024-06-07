@@ -7,8 +7,8 @@ import { auth } from "@/auth";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "RB32",
-  description: "Invoicing and accounting software for small businesses",
+  title: "Kwishetwel",
+  description: "Trivia game for the whole family",
 };
 
 export default async function RootLayout({

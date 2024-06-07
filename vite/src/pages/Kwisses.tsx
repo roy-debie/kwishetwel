@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const Home: React.FC = () => {
+const Kwisses: React.FC = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -43,4 +43,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default Kwisses;

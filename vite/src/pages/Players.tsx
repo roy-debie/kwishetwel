@@ -1,6 +1,6 @@
 import React from "react";
 
-const About: React.FC = () => {
+const Players: React.FC = () => {
   return (
     <div className="text-center">
       <h1 className="text-3xl font-bold">About Page</h1>
@@ -9,4 +9,4 @@ const About: React.FC = () => {
   );
 };
 
-export default About;
+export default Players;

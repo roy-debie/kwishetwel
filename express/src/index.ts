@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 import DBAdapter from "./dbAdapter";
 import kwisRoute from "./routes/kwisRoute";
+import playerRoute from "./routes/playerRoute";
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ if (mongoUri) {
 
 // Use the routes
 app.use("/api", kwisRoute);
+app.use("/api", playerRoute);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

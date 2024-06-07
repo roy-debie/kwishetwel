@@ -1,9 +1,5 @@
-import mongoose, { Schema, Document, Model } from "mongoose";
-
-interface IKwis extends Document {
-  name: string;
-  description: string;
-}
+import mongoose, { Schema, Model } from "mongoose";
+import { IKwis } from "../types";
 
 const KwisSchema: Schema = new Schema({
   name: { type: String, required: true },

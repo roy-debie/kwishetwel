@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
-import Kwis from "./models/kwis"; // Import the Kwis model
+import Kwis from "./models/kwis";
+import Player from "./models/player";
+import { IKwis, IPlayer } from "./types";
 
 class DBAdapter {
   private uri: string;
@@ -18,12 +20,22 @@ class DBAdapter {
     }
   }
 
-  public async getKwisses(): Promise<any> {
+  public async getKwisses(): Promise<IKwis[]> {
     try {
       const kwisData = await Kwis.find().exec();
       return kwisData;
     } catch (error) {
       console.error("Error fetching Kwisses:", error);
+      throw error;
+    }
+  }
+
+  public async getPlayers(): Promise<IPlayer[]> {
+    try {
+      const playerData = await Player.find().exec();
+      return playerData;
+    } catch (error) {
+      console.error("Error fetching Players:", error);
       throw error;
     }
   }

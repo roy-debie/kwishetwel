@@ -30,6 +30,17 @@ class DBAdapter {
     }
   }
 
+  public async createKwis(kwis: IKwis): Promise<IKwis> {
+    try {
+      const newKwis = new Kwis(kwis);
+      const savedKwis = await newKwis.save();
+      return savedKwis;
+    } catch (error) {
+      console.error("Error creating Kwis:", error);
+      throw error;
+    }
+  }
+
   public async getPlayers(): Promise<IPlayer[]> {
     try {
       const playerData = await Player.find().exec();

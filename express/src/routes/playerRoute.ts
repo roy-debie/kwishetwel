@@ -8,9 +8,9 @@ const dbAdapter = new DBAdapter(mongoUri);
 router.get("/players", async (req: Request, res: Response) => {
   try {
     const playerData = await dbAdapter.getPlayers();
-    res.json(playerData);
+    return res.status(200).send(playerData);
   } catch (error) {
-    res.status(500).send("Error fetching Players");
+    return res.status(500).send("Error fetching Players");
   }
 });
 

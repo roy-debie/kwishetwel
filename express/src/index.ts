@@ -3,11 +3,17 @@ import dotenv from "dotenv";
 import DBAdapter from "./dbAdapter";
 import kwisRoute from "./routes/kwisRoute";
 import playerRoute from "./routes/playerRoute";
+import cors from "cors";
 
 dotenv.config();
 
+const corsOptions = {
+  origin: process.env.CORS_ORIGIN || "*",
+};
 const app = express();
 const port = process.env.PORT || 3000;
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 

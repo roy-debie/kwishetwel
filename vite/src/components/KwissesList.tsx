@@ -112,7 +112,7 @@ const KwissesList = ({
               {kwis.players &&
                 kwis.players.map((player) => (
                   <li key={player} className="flex justify-between py-2">
-                    <div className="flex min-w-0 gap-x-4">
+                    <div className="flex min-w-full gap-x-4">
                       <p>
                         {
                           playerEmojis[
@@ -134,7 +134,7 @@ const KwissesList = ({
                           onClick={() => deletePlayerFromKwis(kwis._id, player)}
                           className="mt-1 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium mr-2 bg-red-100 text-red-800 cursor-pointer"
                         >
-                          Remove
+                          x
                         </button>
                       </div>
                     </div>

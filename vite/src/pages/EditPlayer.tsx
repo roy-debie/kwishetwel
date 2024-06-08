@@ -26,7 +26,8 @@ const EditPlayer = () => {
   const updatePlayer = () => {
     axios
       .put(`${import.meta.env.VITE_API_URL}/players/${id}`, {
-        username: username,
+        username,
+        gender,
       })
       .then(() => {
         navigate("/players");

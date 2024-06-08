@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const Kwisses: React.FC = () => {
   const [kwisses, setKwisses] = useState([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [reload, setReload] = useState<boolean>(false);
 

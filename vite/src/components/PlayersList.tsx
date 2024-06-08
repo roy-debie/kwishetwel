@@ -13,6 +13,7 @@ const PlayersList = ({
   }>;
   setReload: (reload: boolean) => void;
 }) => {
+  const emojis = ["👸", "🕵", "🤰", "🧕", "🙈", "🤡", "🦹"];
   const [deleteClicked, setDeleteClicked] = useState<string | null>(null);
 
   const deleteKwis = (id: string) => {
@@ -44,7 +45,9 @@ const PlayersList = ({
           key={player._id}
           className="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm"
         >
-          <div className="flex-shrink-0">&#129504;</div>
+          <div className="flex-shrink-0">
+            {emojis[Math.floor(Math.random() * emojis.length)]}
+          </div>
           <div className="min-w-0 flex-1">
             <p className="text-sm font-medium text-gray-900">
               {player.username}

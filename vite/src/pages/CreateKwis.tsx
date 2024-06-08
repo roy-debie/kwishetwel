@@ -9,7 +9,6 @@ const CreateKwis = () => {
     axios
       .post(`${import.meta.env.VITE_API_URL}/kwisses`, {
         name: name,
-        description: "This is a description",
       })
       .then(() => {
         navigate("/");

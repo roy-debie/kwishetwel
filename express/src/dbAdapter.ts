@@ -72,6 +72,40 @@ class DBAdapter {
     }
   }
 
+  public async addPlayerToKwis(
+    id: string,
+    player: IPlayer
+  ): Promise<IKwis | null> {
+    try {
+      const updatedKwis = await Kwis.findByIdAndUpdate(
+        id,
+        { $push: { players: player } },
+        { new: true }
+      ).exec();
+      return updatedKwis;
+    } catch (error) {
+      console.error("Error updating Kwis:", error);
+      throw error;
+    }
+  }
+
+  public async deletePlayerFromKwis(
+    id: string,
+    playerId: string
+  ): Promise<IKwis | null> {
+    try {
+      const updatedKwis = await Kwis.findByIdAndUpdate(
+        id,
+        { $pull: { players: playerId } },
+        { new: true }
+      ).exec();
+      return updatedKwis;
+    } catch (error) {
+      console.error("Error updating Kwis:", error);
+      throw error;
+    }
+  }
+
   public async getPlayers(): Promise<IPlayer[]> {
     try {
       const playerData = await Player.find().exec();

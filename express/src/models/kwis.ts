@@ -3,6 +3,7 @@ import { IKwis } from "../types";
 
 const KwisSchema: Schema = new Schema({
   name: { type: String, required: true },
+  players: [{ type: Schema.Types.ObjectId, ref: "Player" }],
 });
 
 const Kwis: Model<IKwis> = mongoose.model<IKwis>("Kwis", KwisSchema);

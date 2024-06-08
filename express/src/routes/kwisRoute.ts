@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import DBAdapter from "../dbAdapter";
-import { IKwis } from "../types";
+import { IKwis, IPlayer } from "../types";
 
 const router = Router();
 const mongoUri = process.env.MONGO_URI || "";
@@ -55,5 +55,32 @@ router.put("/kwisses/:id", async (req: Request, res: Response) => {
     return res.status(500).send("Error updating Kwis");
   }
 });
+
+// create route to add player to kwis
+router.put("/kwisses/add-player/:id", async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const playerData: IPlayer = req.body.player;
+    const updatedKwis = await dbAdapter.addPlayerToKwis(id, playerData);
+    return res.status(200).send(updatedKwis);
+  } catch (error) {
+    return res.status(500).send("Error updating Kwis");
+  }
+});
+
+// create route to delete player from kwis
+router.put(
+  "/kwisses/delete-player/:id",
+  async (req: Request, res: Response) => {
+    try {
+      const id = req.params.id;
+      const playerId: string = req.body.player;
+      const updatedKwis = await dbAdapter.deletePlayerFromKwis(id, playerId);
+      return res.status(200).send(updatedKwis);
+    } catch (error) {
+      return res.status(500).send("Error updating Kwis");
+    }
+  }
+);
 
 export default router;

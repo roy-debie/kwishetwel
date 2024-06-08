@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 const CreatePlayer = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState<string>("");
-  const [gender, setGender] = useState<string>("Chickie");
+  const [gender, setGender] = useState<string>("CHICKIE");
   const createPlayer = () => {
     axios
       .post(`${import.meta.env.VITE_API_URL}/players`, {

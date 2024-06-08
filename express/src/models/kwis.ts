@@ -4,6 +4,8 @@ import { IKwis } from "../types";
 const KwisSchema: Schema = new Schema({
   name: { type: String, required: true },
   players: [{ type: Schema.Types.ObjectId, ref: "Player" }],
+  started: { type: Boolean, required: false, default: false },
+  rounds: { type: Array, required: false, default: [] },
 });
 
 const Kwis: Model<IKwis> = mongoose.model<IKwis>("Kwis", KwisSchema);

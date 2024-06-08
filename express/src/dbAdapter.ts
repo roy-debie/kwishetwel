@@ -160,6 +160,20 @@ class DBAdapter {
       throw error;
     }
   }
+
+  public async startKwis(id: string): Promise<IKwis | null> {
+    try {
+      const updatedKwis = await Kwis.findByIdAndUpdate(
+        id,
+        { started: true, rounds: [] },
+        { new: true }
+      ).exec();
+      return updatedKwis;
+    } catch (error) {
+      console.error("Error starting Kwis:", error);
+      throw error;
+    }
+  }
 }
 
 export default DBAdapter;

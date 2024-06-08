@@ -56,7 +56,6 @@ router.put("/kwisses/:id", async (req: Request, res: Response) => {
   }
 });
 
-// create route to add player to kwis
 router.put("/kwisses/add-player/:id", async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
@@ -68,7 +67,6 @@ router.put("/kwisses/add-player/:id", async (req: Request, res: Response) => {
   }
 });
 
-// create route to delete player from kwis
 router.put(
   "/kwisses/delete-player/:id",
   async (req: Request, res: Response) => {
@@ -82,5 +80,15 @@ router.put(
     }
   }
 );
+
+router.put("/kwisses/start/:id", async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const updatedKwis = await dbAdapter.startKwis(id);
+    return res.status(200).send(updatedKwis);
+  } catch (error) {
+    return res.status(500).send("Error updating Kwis");
+  }
+});
 
 export default router;

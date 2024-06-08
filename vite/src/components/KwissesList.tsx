@@ -11,6 +11,8 @@ const KwissesList = ({
     _id: string;
     name: string;
     players: Array<string>;
+    started: boolean;
+    rounds: Array<unknown>;
   }>;
   setReload: (reload: boolean) => void;
 }) => {
@@ -19,6 +21,8 @@ const KwissesList = ({
 
   const [deleteClicked, setDeleteClicked] = useState<string | null>(null);
   const [addPlayerClicked, setAddPlayerClicked] = useState<string | null>(null);
+  const [startClicked, setStartClicked] = useState<string | null>(null);
+  const [continueClicked, setContinueClicked] = useState<string | null>(null);
   const [players, setPlayers] = useState<Array<{
     _id: string;
     username: string;
@@ -50,6 +54,16 @@ const KwissesList = ({
   const cancelDelete = () => {
     // Reset state if "No" button is clicked
     setDeleteClicked(null);
+  };
+
+  const cancelStart = () => {
+    // Reset state if "No" button is clicked
+    setStartClicked(null);
+  };
+
+  const cancelContinue = () => {
+    // Reset state if "No" button is clicked
+    setContinueClicked(null);
   };
 
   const addPlayerToKwis = (kwisId: string) => {
@@ -89,6 +103,35 @@ const KwissesList = ({
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const startKwis = (id: string) => {
+    if (startClicked === id) {
+      axios
+        .put(`${import.meta.env.VITE_API_URL}/kwisses/start/${id}`)
+        .then(() => {
+          console.log("Kwis started");
+          setReload(true);
+          setStartClicked(null);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      // Update state to show "Are you sure?" text
+      setStartClicked(id);
+    }
+  };
+
+  const continueKwis = (id: string) => {
+    if (continueClicked === id) {
+      console.log("Kwis continued");
+      setReload(true);
+      setContinueClicked(null);
+    } else {
+      // Update state to show "Are you sure?" text
+      setContinueClicked(id);
+    }
   };
 
   useEffect(() => {
@@ -168,12 +211,53 @@ const KwissesList = ({
             >
               Edit
             </Link>
-            <button
-              type="button"
-              className="mt-1 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 cursor-pointer mr-2"
-            >
-              Start
-            </button>
+            {!kwis.started ? (
+              <>
+                <button
+                  type="button"
+                  onClick={() => startKwis(kwis._id)}
+                  className={`mt-1 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium mr-2 ${
+                    startClicked === kwis._id
+                      ? "bg-yellow-100 text-yellow-800"
+                      : "bg-green-100 text-green-800"
+                  } cursor-pointer`}
+                >
+                  {startClicked === kwis._id ? "Are you sure?" : "Start"}
+                </button>
+                {startClicked && (
+                  <button
+                    type="button"
+                    onClick={cancelStart}
+                    className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 cursor-pointer mr-2"
+                  >
+                    No
+                  </button>
+                )}
+              </>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  onClick={() => continueKwis(kwis._id)}
+                  className={`mt-1 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium mr-2 ${
+                    continueClicked === kwis._id
+                      ? "bg-yellow-100 text-yellow-800"
+                      : "bg-green-100 text-green-800"
+                  } cursor-pointer`}
+                >
+                  {continueClicked === kwis._id ? "Are you sure?" : "Continue"}
+                </button>
+                {continueClicked && (
+                  <button
+                    type="button"
+                    onClick={cancelContinue}
+                    className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 cursor-pointer mr-2"
+                  >
+                    No
+                  </button>
+                )}
+              </>
+            )}
             <button
               type="button"
               onClick={() => setAddPlayerClicked(kwis._id)}

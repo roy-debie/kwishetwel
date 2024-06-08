@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const KwissesList = ({
   kwisses,
@@ -13,6 +13,7 @@ const KwissesList = ({
     players: Array<string>;
     started: boolean;
     rounds: Array<unknown>;
+    currentRound: number;
   }>;
   setReload: (reload: boolean) => void;
 }) => {
@@ -33,6 +34,8 @@ const KwissesList = ({
     username: string;
     gender: "CHICKIE" | "MAN";
   }>();
+
+  const navigate = useNavigate();
 
   const deleteKwis = (id: string) => {
     if (deleteClicked === id) {
@@ -125,9 +128,11 @@ const KwissesList = ({
 
   const continueKwis = (id: string) => {
     if (continueClicked === id) {
-      console.log("Kwis continued");
       setReload(true);
       setContinueClicked(null);
+      navigate(
+        `/round${kwisses.find((kwis) => kwis._id === id)?.currentRound}/${id}`
+      );
     } else {
       // Update state to show "Are you sure?" text
       setContinueClicked(id);
@@ -172,13 +177,17 @@ const KwissesList = ({
                         </p>
                       </div>
                       <div>
-                        <button
-                          type="button"
-                          onClick={() => deletePlayerFromKwis(kwis._id, player)}
-                          className="mt-1 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium mr-2 bg-red-100 text-red-800 cursor-pointer"
-                        >
-                          x
-                        </button>
+                        {!kwis.started && (
+                          <button
+                            type="button"
+                            onClick={() =>
+                              deletePlayerFromKwis(kwis._id, player)
+                            }
+                            className="mt-1 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium mr-2 bg-red-100 text-red-800 cursor-pointer"
+                          >
+                            x
+                          </button>
+                        )}
                       </div>
                     </div>
                   </li>

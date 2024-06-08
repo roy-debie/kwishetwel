@@ -6,6 +6,7 @@ const KwisSchema: Schema = new Schema({
   players: [{ type: Schema.Types.ObjectId, ref: "Player" }],
   started: { type: Boolean, required: false, default: false },
   rounds: { type: Array, required: false, default: [] },
+  currentRound: { type: Number, required: false, default: 0 },
 });
 
 const Kwis: Model<IKwis> = mongoose.model<IKwis>("Kwis", KwisSchema);

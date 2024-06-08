@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import DBAdapter from "../dbAdapter";
-import { IKwis, IPlayer } from "../types";
+import { IKwis, IPlayer, IRound } from "../types";
 
 const router = Router();
 const mongoUri = process.env.MONGO_URI || "";
@@ -88,6 +88,49 @@ router.put("/kwisses/start/:id", async (req: Request, res: Response) => {
     return res.status(200).send(updatedKwis);
   } catch (error) {
     return res.status(500).send("Error updating Kwis");
+  }
+});
+
+router.get("/round1/:id", async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const kwisData = await dbAdapter.getKwisById(id);
+    if (!kwisData) {
+      return res.status(404).send("Kwis not found");
+    }
+    //find the object in the array that has the number 1
+    const kwisRound1 = kwisData.rounds.find((round) => round.number === 1);
+    if (kwisRound1) {
+      return res.status(200).send(kwisRound1);
+    } else {
+      //for the playerRounds array, we need to add a new object for each player in the kwis
+      // with the status current and points 0 and place them in random order
+      // for each player in the kwis, we need to add a new playerRound object with the status current and points 0
+      // and add them to the playerRounds array
+      // shuffle the playerRounds array
+      // add the playerRounds array to the kwisRound1 object
+      const playerRounds = kwisData.players.map((player) => {
+        return {
+          player: player,
+          category: "",
+          question: "",
+          answer: "",
+          points: 0,
+          status: "to be answered",
+        };
+      });
+      const shuffledPlayerRounds = playerRounds.sort(() => Math.random() - 0.5);
+      const newRound: IRound = {
+        number: 1,
+        current: true,
+        playerRounds: shuffledPlayerRounds,
+      } as IRound extends Document ? IRound : never;
+      kwisData.rounds.push(newRound);
+      await dbAdapter.updateKwis(id, kwisData);
+      return res.status(200).send(newRound);
+    }
+  } catch (error) {
+    return res.status(500).send("Error fetching Kwisses");
   }
 });
 

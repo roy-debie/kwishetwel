@@ -81,6 +81,51 @@ class DBAdapter {
       throw error;
     }
   }
+
+  public async getPlayerById(id: string): Promise<IPlayer | null> {
+    try {
+      const playerData = await Player.findById(id).exec();
+      return playerData;
+    } catch (error) {
+      console.error("Error fetching Player:", error);
+      throw error;
+    }
+  }
+
+  public async createPlayer(player: IPlayer): Promise<IPlayer> {
+    try {
+      const newPlayer = new Player(player);
+      const savedPlayer = await newPlayer.save();
+      return savedPlayer;
+    } catch (error) {
+      console.error("Error creating Player:", error);
+      throw error;
+    }
+  }
+
+  public async deletePlayer(id: string): Promise<void> {
+    try {
+      await Player.findByIdAndDelete(id).exec();
+    } catch (error) {
+      console.error("Error deleting Player:", error);
+      throw error;
+    }
+  }
+
+  public async updatePlayer(
+    id: string,
+    player: IPlayer
+  ): Promise<IPlayer | null> {
+    try {
+      const updatedPlayer = await Player.findByIdAndUpdate(id, player, {
+        new: true,
+      }).exec();
+      return updatedPlayer;
+    } catch (error) {
+      console.error("Error updating Player:", error);
+      throw error;
+    }
+  }
 }
 
 export default DBAdapter;

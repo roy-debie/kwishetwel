@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import KwissesList from "../components/KwissesList";
@@ -33,16 +34,16 @@ const Kwisses: React.FC = () => {
     }
   }, [reload]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  // if (loading) {
+  //   return <div>Loading...</div>;
+  // }
 
   if (error) {
     return <div>Error: {error}</div>;
   }
 
   return (
-    <div className="text-left w-8/12 m-auto">
+    <div className="text-left w-8/12 mx-auto mt-5">
       <div className="md:flex md:items-center md:justify-between">
         <div className="min-w-0 flex-1">
           <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">

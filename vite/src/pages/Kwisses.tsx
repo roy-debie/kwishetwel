@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import KwissesList from "../components/KwissesList";
+import { Link } from "react-router-dom";
 
 const Kwisses: React.FC = () => {
-  const [data, setData] = useState([]);
+  const [kwisses, setKwisses] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -10,7 +12,7 @@ const Kwisses: React.FC = () => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/kwisses`)
       .then((response) => {
-        setData(response.data);
+        setKwisses(response.data);
         console.log(response.data);
         setLoading(false);
       })
@@ -29,16 +31,24 @@ const Kwisses: React.FC = () => {
   }
 
   return (
-    <div className="text-center">
-      <h1 className="text-3xl font-bold">Home Page</h1>
-      <p className="mt-4">Welcome to the Home Page!</p>
-      <ul>
-        {data.map((item) => (
-          <li key={item} className="mt-2">
-            {item}
-          </li>
-        ))}
-      </ul>
+    <div className="text-left w-8/12 m-auto">
+      <div className="md:flex md:items-center md:justify-between">
+        <div className="min-w-0 flex-1">
+          <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+            Your Kwisses
+          </h2>
+        </div>
+        <div className="mt-4 flex md:ml-4 md:mt-0">
+          <Link
+            to={"/create-kwis"}
+            type="button"
+            className="ml-3 inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            Create kwis
+          </Link>
+        </div>
+      </div>
+      <KwissesList kwisses={kwisses} />
     </div>
   );
 };

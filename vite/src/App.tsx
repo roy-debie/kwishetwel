@@ -4,6 +4,7 @@ import Kwisses from "./pages/Kwisses";
 import Players from "./pages/Players";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import CreateKwis from "./pages/CreateKwis";
 
 const navigation = [
   { name: "Kwisses", href: "/" },
@@ -99,6 +100,7 @@ const App: React.FC = () => {
         <div className="p-4">
           <Routes>
             <Route path="/" element={<Kwisses />} />
+            <Route path="/create-kwis" element={<CreateKwis />} />
             <Route path="/players" element={<Players />} />
           </Routes>
         </div>

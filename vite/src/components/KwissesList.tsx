@@ -53,6 +53,7 @@ const KwissesList = ({
   };
 
   const addPlayerToKwis = (kwisId: string) => {
+    if (!playerToAdd) return;
     setAddPlayerClicked(null);
     axios
       .put(`${import.meta.env.VITE_API_URL}/kwisses/add-player/${kwisId}`, {
@@ -84,15 +85,6 @@ const KwissesList = ({
       .get(`${import.meta.env.VITE_API_URL}/players`)
       .then((response) => {
         setPlayers(response.data);
-        //set the player to add to first player in the players list that is not already in the kwis
-        setPlayerToAdd(
-          response.data.find(
-            (player: { _id: string }) =>
-              !kwisses.find((kwis) =>
-                kwis.players.find((p) => p === player._id)
-              )
-          )
-        );
       })
       .catch((error) => {
         console.log(error);
@@ -211,6 +203,7 @@ const KwissesList = ({
                     }
                     className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   >
+                    <option value="">Select Player</option>
                     {players?.length &&
                       players
                         .filter(

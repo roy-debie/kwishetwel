@@ -15,6 +15,16 @@ router.get("/kwisses", async (req: Request, res: Response) => {
   }
 });
 
+router.get("/kwisses/:id", async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const kwisData = await dbAdapter.getKwisById(id);
+    return res.status(200).send(kwisData);
+  } catch (error) {
+    return res.status(500).send("Error fetching Kwis");
+  }
+});
+
 router.post("/kwisses", async (req: Request, res: Response) => {
   try {
     const kwisData: IKwis = req.body;
@@ -22,6 +32,27 @@ router.post("/kwisses", async (req: Request, res: Response) => {
     return res.status(201).send(newKwis);
   } catch (error) {
     return res.status(500).send("Error creating Kwis");
+  }
+});
+
+router.delete("/kwisses/:id", async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    await dbAdapter.deleteKwis(id);
+    return res.status(204).send();
+  } catch (error) {
+    return res.status(500).send("Error deleting Kwis");
+  }
+});
+
+router.put("/kwisses/:id", async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const kwisData: IKwis = req.body;
+    const updatedKwis = await dbAdapter.updateKwis(id, kwisData);
+    return res.status(200).send(updatedKwis);
+  } catch (error) {
+    return res.status(500).send("Error updating Kwis");
   }
 });
 

@@ -1,15 +1,30 @@
 import axios from "axios";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
-const CreateKwis = () => {
+const EditKwis = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
+  const [, setKwis] = useState({});
   const [name, setName] = useState<string>("");
-  const createKwis = () => {
+
+  useEffect(() => {
+    // Fetch the kwis data by ID when the component mounts
     axios
-      .post(`${import.meta.env.VITE_API_URL}/kwisses`, {
+      .get(`${import.meta.env.VITE_API_URL}/kwisses/${id}`)
+      .then((response) => {
+        setKwis(response.data);
+        setName(response.data.name);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [id]);
+
+  const updateKwis = () => {
+    axios
+      .put(`${import.meta.env.VITE_API_URL}/kwisses/${id}`, {
         name: name,
-        description: "This is a description",
       })
       .then(() => {
         navigate("/");
@@ -18,6 +33,7 @@ const CreateKwis = () => {
         console.error(error);
       });
   };
+
   return (
     <div className="w-4/12 m-auto pt-10">
       <div>
@@ -41,15 +57,13 @@ const CreateKwis = () => {
       </div>
       <div className="mt-6 flex items-center justify-end gap-x-6">
         <Link
-          type="button"
           to={"/"}
           className="text-sm font-semibold leading-6 text-gray-900"
         >
           Cancel
         </Link>
         <button
-          type="submit"
-          onClick={() => createKwis()}
+          onClick={() => updateKwis()}
           className="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
         >
           Save
@@ -59,4 +73,4 @@ const CreateKwis = () => {
   );
 };
 
-export default CreateKwis;
+export default EditKwis;

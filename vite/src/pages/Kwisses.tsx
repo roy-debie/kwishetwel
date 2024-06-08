@@ -7,20 +7,31 @@ const Kwisses: React.FC = () => {
   const [kwisses, setKwisses] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [reload, setReload] = useState<boolean>(false);
 
-  useEffect(() => {
-    axios
+  const getKwisses = async () => {
+    await axios
       .get(`${import.meta.env.VITE_API_URL}/kwisses`)
       .then((response) => {
         setKwisses(response.data);
-        console.log(response.data);
         setLoading(false);
       })
       .catch((error) => {
         setError(error.message);
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    getKwisses();
   }, []);
+
+  useEffect(() => {
+    if (reload) {
+      getKwisses();
+      setReload(false);
+    }
+  }, [reload]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -48,7 +59,7 @@ const Kwisses: React.FC = () => {
           </Link>
         </div>
       </div>
-      <KwissesList kwisses={kwisses} />
+      <KwissesList kwisses={kwisses} setReload={setReload} />
     </div>
   );
 };

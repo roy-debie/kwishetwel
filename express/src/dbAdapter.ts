@@ -30,6 +30,16 @@ class DBAdapter {
     }
   }
 
+  public async getKwisById(id: string): Promise<IKwis | null> {
+    try {
+      const kwisData = await Kwis.findById(id).exec();
+      return kwisData;
+    } catch (error) {
+      console.error("Error fetching Kwis:", error);
+      throw error;
+    }
+  }
+
   public async createKwis(kwis: IKwis): Promise<IKwis> {
     try {
       const newKwis = new Kwis(kwis);
@@ -37,6 +47,27 @@ class DBAdapter {
       return savedKwis;
     } catch (error) {
       console.error("Error creating Kwis:", error);
+      throw error;
+    }
+  }
+
+  public async deleteKwis(id: string): Promise<void> {
+    try {
+      await Kwis.findByIdAndDelete(id).exec();
+    } catch (error) {
+      console.error("Error deleting Kwis:", error);
+      throw error;
+    }
+  }
+
+  public async updateKwis(id: string, kwis: IKwis): Promise<IKwis | null> {
+    try {
+      const updatedKwis = await Kwis.findByIdAndUpdate(id, kwis, {
+        new: true,
+      }).exec();
+      return updatedKwis;
+    } catch (error) {
+      console.error("Error updating Kwis:", error);
       throw error;
     }
   }

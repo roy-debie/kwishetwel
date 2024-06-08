@@ -258,13 +258,15 @@ const KwissesList = ({
                 )}
               </>
             )}
-            <button
-              type="button"
-              onClick={() => setAddPlayerClicked(kwis._id)}
-              className="mt-1 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 cursor-pointer"
-            >
-              Add Player
-            </button>
+            {!kwis.started && (
+              <button
+                type="button"
+                onClick={() => setAddPlayerClicked(kwis._id)}
+                className="mt-1 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 cursor-pointer"
+              >
+                Add Player
+              </button>
+            )}
             {addPlayerClicked === kwis._id && (
               <>
                 <div className="mt-2">
